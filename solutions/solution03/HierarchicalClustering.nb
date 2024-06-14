@@ -1,0 +1,565 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     22582,        557]
+NotebookOptionsPosition[     21730,        523]
+NotebookOutlinePosition[     22311,        545]
+CellTagsIndexPosition[     22268,        542]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Hierarchical Clustering", "Title",
+ CellChangeTimes->{{3.7657956995835114`*^9, 3.765795703676471*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Theme", "Section",
+ CellChangeTimes->{{3.7394215617595243`*^9, 3.7394215621876884`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"fontLabels", "=", 
+   RowBox[{"Directive", "[", 
+    RowBox[{
+     RowBox[{"FontFamily", "\[Rule]", "\"\<Libertinus Serif\>\""}], ",", 
+     RowBox[{"FontSize", "\[Rule]", "22"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"fontTicks", "=", 
+    RowBox[{"Directive", "[", 
+     RowBox[{
+      RowBox[{"FontFamily", "\[Rule]", "\"\<Libertinus Serif\>\""}], ",", 
+      RowBox[{"FontSize", "\[Rule]", "18"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"https", ":"}], "//", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"mathematica", ".", "stackexchange", ".", "com"}], "/", 
+        "questions"}], "/", "54545"}], "/", "is"}], "-", "it", "-", 
+     "possible", "-", "to", "-", "define", "-", "a", "-", "new", "-", 
+     "plottheme"}]}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Begin", "[", "\"\<System`PlotThemeDump`\>\"", "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Themes`ThemeRules", ";"}], 
+  RowBox[{"(*", 
+   RowBox[{"preload", " ", "Theme", " ", "system"}], "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"resolvePlotTheme", "[", 
+    RowBox[{"\"\<myThemeBasic\>\"", ",", 
+     RowBox[{"def", ":", "_String"}]}], "]"}], ":=", 
+   RowBox[{"Themes`SetWeight", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"Join", "[", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"ImageSize", "\[Rule]", "Large"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"{", 
+        RowBox[{"LabelStyle", "\[Rule]", "fontLabels"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"{", 
+        RowBox[{"TicksStyle", "\[Rule]", "fontTicks"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"{", 
+        RowBox[{"FrameTicksStyle", "\[Rule]", "fontTicks"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+        "102", " ", "is", " ", "the", " ", "default", " ", "grey", " ", 
+         "level", " ", "of", " ", "Mathematica"}], " ", "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{"{", 
+        RowBox[{"AxesStyle", "\[Rule]", 
+         RowBox[{"Directive", "[", 
+          RowBox[{
+           RowBox[{"AbsoluteThickness", "[", "0.3", "]"}], ",", 
+           RowBox[{"GrayLevel", "[", 
+            FractionBox["102", "255"], "]"}]}], "]"}]}], "}"}]}], 
+      "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", ",", 
+     "$ComponentWeight"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"resolvePlotTheme", "[", 
+    RowBox[{"\"\<myTheme\>\"", ",", 
+     RowBox[{"def", ":", "_String"}]}], "]"}], ":=", 
+   RowBox[{"Themes`SetWeight", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"Join", "[", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"resolvePlotTheme", "[", 
+        RowBox[{"\"\<myThemeBasic\>\"", ",", "def"}], "]"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"{", 
+        RowBox[{"PlotStyle", "\[Rule]", 
+         RowBox[{"Directive", "[", 
+          RowBox[{
+           RowBox[{"PointSize", "[", "0.013", "]"}], ",", "Thick"}], "]"}]}], 
+        "}"}]}], "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", ",", 
+     "$ComponentWeight"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"resolvePlotTheme", "[", 
+     RowBox[{"\"\<myThemeBW\>\"", ",", 
+      RowBox[{"def", ":", "_String"}]}], "]"}], ":=", 
+    RowBox[{"Themes`SetWeight", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"Join", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"resolvePlotTheme", "[", 
+         RowBox[{"\"\<myTheme\>\"", ",", "def"}], "]"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{"PlotStyle", "\[Rule]", 
+          RowBox[{"Thread", "@", 
+           RowBox[{"Directive", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"GrayLevel", "[", "0.2", "]"}], ",", 
+               RowBox[{"GrayLevel", "[", "0.8", "]"}]}], "}"}], ",", "Thick", 
+             ",", 
+             RowBox[{"{", 
+              RowBox[{"Automatic", ",", "Dashed"}], "}"}]}], "]"}]}]}], 
+         "}"}]}], "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", ",", 
+      "$ComponentWeight"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Do", " ", "not", " ", "adjust", " ", "point", " ", "sizes", " ", "for", 
+    " ", "region", " ", "plots"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"resolvePlotTheme", "[", 
+     RowBox[{"\"\<myTheme\>\"", ",", 
+      RowBox[{"def", ":", "\"\<RegionPlot\>\""}]}], "]"}], ":=", 
+    RowBox[{"Themes`SetWeight", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"Join", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"resolvePlotTheme", "[", 
+         RowBox[{"\"\<myThemeBasic\>\"", ",", "def"}], "]"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{"PlotStyle", "\[Rule]", "Automatic"}], "}"}]}], 
+       "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", ",", 
+      "$ComponentWeight"}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"End", "[", "]"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"it", "[", "var_", "]"}], ":=", 
+  RowBox[{"Style", "[", 
+   RowBox[{"var", ",", 
+    RowBox[{"FontSlant", "\[Rule]", "Italic"}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"bf", "[", "var_", "]"}], ":=", 
+  RowBox[{"Style", "[", 
+   RowBox[{"var", ",", 
+    RowBox[{"FontWeight", "\[Rule]", "Bold"}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"bi", "[", "var_", "]"}], ":=", 
+  RowBox[{"bf", "[", 
+   RowBox[{"it", "[", "var", "]"}], "]"}]}]}], "Input",
+ CellChangeTimes->{
+  3.7438396956249304`*^9, {3.7446409171616344`*^9, 3.744640917325588*^9}, {
+   3.7477443858311157`*^9, 3.747744386476116*^9}, 3.747890183093388*^9, 
+   3.75008547004253*^9, {3.7586331334331484`*^9, 3.758633133552147*^9}}]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Plot", "Section",
+ CellChangeTimes->{{3.765795732894465*^9, 3.765795734233463*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"data", "=", 
+   RowBox[{"(", GridBox[{
+      {"1", "1"},
+      {"3", "2"},
+      {"1.5", "5"},
+      {"2", "6"},
+      {"3", "4"}
+     }], ")"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"dataLabels", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Subscript", "[", 
+      RowBox[{
+       RowBox[{"bi", "[", "\"\<p\>\"", "]"}], ",", "#"}], "]"}], "&"}], "/@", 
+    RowBox[{"Range", "[", 
+     RowBox[{"Length", "[", "data", "]"}], "]"}]}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.734074582154171*^9, 3.734074583949175*^9}, {
+  3.734074708806215*^9, 3.734074758340214*^9}, {3.734074985550266*^9, 
+  3.7340750019082866`*^9}, {3.734075055964287*^9, 3.734075073636303*^9}, {
+  3.7340751686233134`*^9, 3.734075185462293*^9}, {3.7340752295826173`*^9, 
+  3.734075261716627*^9}, {3.734075299401658*^9, 3.734075299480671*^9}, {
+  3.7340792354670796`*^9, 3.734079268660906*^9}, {3.7658007030980506`*^9, 
+  3.765800706740027*^9}, {3.765864331643972*^9, 3.765864332097014*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ListPlot", "[", 
+  RowBox[{
+   RowBox[{"MapThread", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"Callout", "[", 
+       RowBox[{"#1", ",", "#2"}], "]"}], "&"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"data", ",", "dataLabels"}], "}"}]}], "]"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"PlotTheme", "\[Rule]", 
+    RowBox[{"{", "\"\<myTheme\>\"", "}"}]}], ",", "\[IndentingNewLine]", 
+   RowBox[{"GridLines", "\[Rule]", "Automatic"}], ",", "\[IndentingNewLine]", 
+   RowBox[{"AxesLabel", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"it", "[", "\"\<x\>\"", "]"}], ",", 
+      RowBox[{"it", "[", "\"\<y\>\"", "]"}]}], "}"}]}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"AspectRatio", "\[Rule]", "1"}], ",", "\[IndentingNewLine]", 
+   RowBox[{"PlotRange", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"0.9", ",", "3.1"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "6.1"}], "}"}]}], "}"}]}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"PlotStyle", "\[Rule]", 
+    RowBox[{"Directive", "[", 
+     RowBox[{"PointSize", "[", ".02", "]"}], "]"}]}]}], "\[IndentingNewLine]",
+   "]"}]], "Input",
+ CellChangeTimes->{{3.7340747605841894`*^9, 3.734074763399197*^9}, {
+  3.7340771011201973`*^9, 3.734077198216135*^9}, {3.734077243745143*^9, 
+  3.734077312305176*^9}, {3.734077503664506*^9, 3.7340776095259805`*^9}, {
+  3.734077851957019*^9, 3.734077852356037*^9}, {3.734079272243904*^9, 
+  3.734079276063923*^9}, {3.7341522293845572`*^9, 3.73415227789157*^9}, {
+  3.734152321712582*^9, 3.7341523221875944`*^9}, {3.734152371010589*^9, 
+  3.734152372161604*^9}, {3.734152424240424*^9, 3.7341524279224386`*^9}, {
+  3.734152485442791*^9, 3.7341525088745475`*^9}, {3.73424484668096*^9, 
+  3.734244897052958*^9}, {3.734253550990815*^9, 3.7342535701704073`*^9}, {
+  3.7658001978543105`*^9, 3.7658002034224195`*^9}, {3.765800612363024*^9, 
+  3.7658006185340285`*^9}}],
+
+Cell[BoxData[
+ GraphicsBox[{{}, {{{}, 
+     {RGBColor[0.368417, 0.506779, 0.709798], PointSize[0.02], 
+      AbsoluteThickness[1.6], 
+      PointBox[{{1., 1.}, {3., 2.}, {1.5, 5.}, {2., 6.}, {3., 4.}}]}, {}}, {
+     TagBox[
+      {Opacity[0.], PointBox[{{1., 1.}}]},
+      Annotation[#, {{Callout}, Charting`Private`Tag$542, {1}}]& ], 
+     TagBox[
+      {Opacity[0.], PointBox[{{3., 2.}}]},
+      Annotation[#, {{Callout}, Charting`Private`Tag$542, {2}}]& ], 
+     TagBox[
+      {Opacity[0.], PointBox[{{1.5, 5.}}]},
+      Annotation[#, {{Callout}, Charting`Private`Tag$542, {3}}]& ], 
+     TagBox[
+      {Opacity[0.], PointBox[{{2., 6.}}]},
+      Annotation[#, {{Callout}, Charting`Private`Tag$542, {4}}]& ], 
+     TagBox[
+      {Opacity[0.], PointBox[{{3., 4.}}]},
+      Annotation[#, {{Callout}, Charting`Private`Tag$542, {
+        5}}]& ]}}, {}, {{{{}, {}}, {{}, {GraphicsGroupBox[{
+         {GrayLevel[1], AbsoluteThickness[4], CapForm["Butt"], JoinForm[
+          "Round"], 
+          LineBox[{
+           Offset[{3.2472402416509185`, 3.8020298280001548`}, {1., 1.}], 
+            Offset[{6.494480483301837, 7.6040596560003095`}, {1., 1.}], 
+            Offset[{10.494480483301837`, 7.6040596560003095`}, {1., 1.}]}]}, 
+         {GrayLevel[0.5], 
+          LineBox[{
+           Offset[{3.2472402416509185`, 3.8020298280001548`}, {1., 1.}], 
+            Offset[{6.494480483301837, 7.6040596560003095`}, {1., 1.}], 
+            Offset[{10.494480483301837`, 7.6040596560003095`}, {1., 1.}]}]}, 
+         {GrayLevel[1], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], EdgeForm[None], 
+          PolygonBox[{
+           Offset[{35.494480483301835`, 20.804059656000312`}, {1., 1.}], 
+            Offset[{35.494480483301835`, -1.1959403439996876`}, {1., 1.}], 
+            Offset[{10.494480483301837`, -1.1959403439996947`}, {1., 1.}], 
+            Offset[{10.494480483301833`, 20.804059656000305`}, {1., 1.}]}]}, 
+         {GrayLevel[0.5], EdgeForm[None]}, {}, InsetBox[
+          StyleBox[
+           RotationBox[
+            SubscriptBox[
+             StyleBox[
+              StyleBox["\<\"p\"\>",
+               StripOnInput->False,
+               FontSlant->Italic],
+              StripOnInput->False,
+              FontWeight->Bold], "1"],
+            BoxRotation->2.220446049250313*^-16],
+           StripOnInput->False,
+           FontFamily->"Libertinus Serif",
+           FontSize->22], 
+          Offset[{22.994480483301835, 9.804059656000309}, {1., 1.}], 
+          ImageScaled[{Rational[1, 2], Rational[1, 2]}]]}], GraphicsGroupBox[{
+         {GrayLevel[1], AbsoluteThickness[4], CapForm["Butt"], JoinForm[
+          "Round"], 
+          LineBox[{
+           Offset[{-3.2472402416509185`, 3.8020298280001548`}, {3., 2.}], 
+            Offset[{-6.494480483301837, 7.6040596560003095`}, {3., 2.}], 
+            Offset[{-10.494480483301837`, 7.6040596560003095`}, {3., 2.}]}]}, 
+         {GrayLevel[0.5], 
+          LineBox[{
+           Offset[{-3.2472402416509185`, 3.8020298280001548`}, {3., 2.}], 
+            Offset[{-6.494480483301837, 7.6040596560003095`}, {3., 2.}], 
+            Offset[{-10.494480483301837`, 7.6040596560003095`}, {3., 2.}]}]}, 
+         {GrayLevel[1], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], EdgeForm[None], 
+          PolygonBox[{
+           Offset[{-10.494480483301837`, 20.804059656000312`}, {3., 2.}], 
+            Offset[{-10.494480483301833`, -1.1959403439996876`}, {3., 2.}], 
+            Offset[{-35.494480483301835`, -1.1959403439996947`}, {3., 2.}], 
+            Offset[{-35.494480483301835`, 20.804059656000305`}, {3., 2.}]}]}, 
+         {GrayLevel[0.5], EdgeForm[None]}, {}, InsetBox[
+          StyleBox[
+           RotationBox[
+            SubscriptBox[
+             StyleBox[
+              StyleBox["\<\"p\"\>",
+               StripOnInput->False,
+               FontSlant->Italic],
+              StripOnInput->False,
+              FontWeight->Bold], "2"],
+            BoxRotation->2.220446049250313*^-16],
+           StripOnInput->False,
+           FontFamily->"Libertinus Serif",
+           FontSize->22], 
+          Offset[{-22.994480483301835, 9.804059656000309}, {3., 2.}], 
+          ImageScaled[{Rational[1, 2], Rational[1, 2]}]]}], GraphicsGroupBox[{
+         {GrayLevel[1], AbsoluteThickness[4], CapForm["Butt"], JoinForm[
+          "Round"], 
+          LineBox[{
+           Offset[{3.2472402416509185`, 3.8020298280001548`}, {1.5, 5.}], 
+            Offset[{6.494480483301837, 7.6040596560003095`}, {1.5, 5.}], 
+            Offset[{10.494480483301837`, 7.6040596560003095`}, {1.5, 5.}]}]}, 
+         {GrayLevel[0.5], 
+          LineBox[{
+           Offset[{3.2472402416509185`, 3.8020298280001548`}, {1.5, 5.}], 
+            Offset[{6.494480483301837, 7.6040596560003095`}, {1.5, 5.}], 
+            Offset[{10.494480483301837`, 7.6040596560003095`}, {1.5, 5.}]}]}, 
+         {GrayLevel[1], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], EdgeForm[None], 
+          PolygonBox[{
+           Offset[{35.494480483301835`, 20.804059656000312`}, {1.5, 5.}], 
+            Offset[{35.494480483301835`, -1.1959403439996876`}, {1.5, 5.}], 
+            Offset[{10.494480483301837`, -1.1959403439996947`}, {1.5, 5.}], 
+            Offset[{10.494480483301833`, 20.804059656000305`}, {1.5, 5.}]}]}, 
+         {GrayLevel[0.5], EdgeForm[None]}, {}, InsetBox[
+          StyleBox[
+           RotationBox[
+            SubscriptBox[
+             StyleBox[
+              StyleBox["\<\"p\"\>",
+               StripOnInput->False,
+               FontSlant->Italic],
+              StripOnInput->False,
+              FontWeight->Bold], "3"],
+            BoxRotation->2.220446049250313*^-16],
+           StripOnInput->False,
+           FontFamily->"Libertinus Serif",
+           FontSize->22], 
+          Offset[{22.994480483301835, 9.804059656000309}, {1.5, 5.}], 
+          ImageScaled[{Rational[1, 2], Rational[1, 2]}]]}], GraphicsGroupBox[{
+         {GrayLevel[1], AbsoluteThickness[4], CapForm["Butt"], JoinForm[
+          "Round"], 
+          LineBox[{
+           Offset[{-3.2472402416509203`, -3.802029828000153}, {2., 6.}], 
+            Offset[{-6.494480483301841, -7.604059656000306}, {2., 6.}], 
+            Offset[{-10.49448048330184, -7.604059656000306}, {2., 6.}]}]}, 
+         {GrayLevel[0.5], 
+          LineBox[{
+           Offset[{-3.2472402416509203`, -3.802029828000153}, {2., 6.}], 
+            Offset[{-6.494480483301841, -7.604059656000306}, {2., 6.}], 
+            Offset[{-10.49448048330184, -7.604059656000306}, {2., 6.}]}]}, 
+         {GrayLevel[1], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], EdgeForm[None], 
+          PolygonBox[{
+           Offset[{-10.494480483301844`, 1.1959403439996983`}, {2., 6.}], 
+            Offset[{-10.49448048330184, -20.8040596560003}, {2., 6.}], 
+            Offset[{-36.49448048330184, -20.80405965600031}, {2., 6.}], 
+            Offset[{-36.49448048330184, 1.1959403439996912`}, {2., 6.}]}]}, 
+         {GrayLevel[0.5], EdgeForm[None]}, {}, InsetBox[
+          StyleBox[
+           RotationBox[
+            SubscriptBox[
+             StyleBox[
+              StyleBox["\<\"p\"\>",
+               StripOnInput->False,
+               FontSlant->Italic],
+              StripOnInput->False,
+              FontWeight->Bold], "4"],
+            BoxRotation->2.220446049250313*^-16],
+           StripOnInput->False,
+           FontFamily->"Libertinus Serif",
+           FontSize->22], 
+          Offset[{-23.494480483301842, -9.804059656000305}, {2., 6.}], 
+          ImageScaled[{Rational[1, 2], Rational[1, 2]}]]}], GraphicsGroupBox[{
+         {GrayLevel[1], AbsoluteThickness[4], CapForm["Butt"], JoinForm[
+          "Round"], 
+          LineBox[{
+           Offset[{-3.2472402416509185`, 3.8020298280001548`}, {3., 4.}], 
+            Offset[{-6.494480483301837, 7.6040596560003095`}, {3., 4.}], 
+            Offset[{-10.494480483301837`, 7.6040596560003095`}, {3., 4.}]}]}, 
+         {GrayLevel[0.5], 
+          LineBox[{
+           Offset[{-3.2472402416509185`, 3.8020298280001548`}, {3., 4.}], 
+            Offset[{-6.494480483301837, 7.6040596560003095`}, {3., 4.}], 
+            Offset[{-10.494480483301837`, 7.6040596560003095`}, {3., 4.}]}]}, 
+         {GrayLevel[1], Opacity[
+           NCache[
+            Rational[2, 3], 0.6666666666666666]], EdgeForm[None], 
+          PolygonBox[{
+           Offset[{-10.494480483301837`, 20.804059656000312`}, {3., 4.}], 
+            Offset[{-10.494480483301833`, -1.1959403439996876`}, {3., 4.}], 
+            Offset[{-35.494480483301835`, -1.1959403439996947`}, {3., 4.}], 
+            Offset[{-35.494480483301835`, 20.804059656000305`}, {3., 4.}]}]}, 
+         {GrayLevel[0.5], EdgeForm[None]}, {}, InsetBox[
+          StyleBox[
+           RotationBox[
+            SubscriptBox[
+             StyleBox[
+              StyleBox["\<\"p\"\>",
+               StripOnInput->False,
+               FontSlant->Italic],
+              StripOnInput->False,
+              FontWeight->Bold], "5"],
+            BoxRotation->2.220446049250313*^-16],
+           StripOnInput->False,
+           FontFamily->"Libertinus Serif",
+           FontSize->22], 
+          Offset[{-22.994480483301835, 9.804059656000309}, {3., 4.}], 
+          ImageScaled[{
+           Rational[1, 2], Rational[1, 2]}]]}]}}}, {{}, {}}}, {{}, {}}},
+  AspectRatio->1,
+  Axes->{True, True},
+  AxesLabel->{
+    FormBox[
+     StyleBox["\"x\"", FontSlant -> Italic, StripOnInput -> False], 
+     TraditionalForm], 
+    FormBox[
+     StyleBox["\"y\"", FontSlant -> Italic, StripOnInput -> False], 
+     TraditionalForm]},
+  AxesOrigin->{0.911, 0},
+  AxesStyle->Directive[
+    AbsoluteThickness[0.3], 
+    GrayLevel[
+     NCache[
+      Rational[2, 5], 0.4]]],
+  DisplayFunction->Identity,
+  Frame->{{False, False}, {False, False}},
+  FrameLabel->{{None, None}, {None, None}},
+  FrameTicks->{{Automatic, Automatic}, {Automatic, Automatic}},
+  FrameTicksStyle->Directive[FontFamily -> "Libertinus Serif", FontSize -> 18],
+  GridLines->{Automatic, Automatic},
+  GridLinesStyle->Directive[
+    GrayLevel[0.5, 0.4]],
+  ImagePadding->All,
+  ImageSize->Large,
+  LabelStyle->Directive[FontFamily -> "Libertinus Serif", FontSize -> 22],
+  Method->{"CoordinatesToolOptions" -> {"DisplayFunction" -> ({
+        (Part[{{Identity, Identity}, {Identity, Identity}}, 1, 2][#]& )[
+         Part[#, 1]], 
+        (Part[{{Identity, Identity}, {Identity, Identity}}, 2, 2][#]& )[
+         Part[#, 2]]}& ), "CopiedValueFunction" -> ({
+        (Part[{{Identity, Identity}, {Identity, Identity}}, 1, 2][#]& )[
+         Part[#, 1]], 
+        (Part[{{Identity, Identity}, {Identity, Identity}}, 2, 2][#]& )[
+         Part[#, 2]]}& )}},
+  PlotRange->{{0.9, 3.1}, {0, 6.1}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{{0, 0}, {0, 0}},
+  Ticks->{Automatic, Automatic},
+  TicksStyle->Directive[
+   FontFamily -> "Libertinus Serif", FontSize -> 18]]], "Output",
+ CellChangeTimes->{
+  3.7340773131161356`*^9, {3.7340775044534707`*^9, 3.734077588161963*^9}, 
+   3.7340778529030504`*^9, 3.734079276834886*^9, 3.734148404779252*^9, {
+   3.7341522343945713`*^9, 3.7341522784645834`*^9}, 3.7341523285035934`*^9, 
+   3.7341523727146053`*^9, {3.734152425522437*^9, 3.734152428465437*^9}, {
+   3.734152487689788*^9, 3.734152509639509*^9}, {3.7342448620999255`*^9, 
+   3.7342448976550283`*^9}, 3.7342535406473017`*^9, 3.734253570850541*^9, 
+   3.734253700797188*^9, 3.765795766886503*^9, 3.7658002043464313`*^9, 
+   3.7658006210760455`*^9, 3.7658007100170517`*^9, 3.7658643364239817`*^9}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+PrintingStyleEnvironment->"Printout",
+WindowSize->{1278, 1348},
+WindowMargins->{{-7, Automatic}, {Automatic, 0}},
+PrintingCopies->1,
+PrintingPageRange->{32000, 32000},
+PrintingOptions->{"Magnification"->1.,
+"PaperOrientation"->"Portrait",
+"PaperSize"->{595.2, 841.8},
+"PrintingMargins"->28.346456999999997`},
+FrontEndVersion->"11.0 for Microsoft Windows (64-bit) (September 21, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 108, 1, 101, "Title"],
+Cell[CellGroupData[{
+Cell[713, 27, 94, 1, 70, "Section"],
+Cell[810, 30, 6196, 160, 870, "Input"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[7043, 195, 89, 1, 56, "Section"],
+Cell[7135, 198, 1012, 25, 124, "Input"],
+Cell[CellGroupData[{
+Cell[8172, 227, 1942, 43, 164, "Input"],
+Cell[10117, 272, 11573, 246, 618, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+

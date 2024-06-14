@@ -1,0 +1,785 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     28155,        777]
+NotebookOptionsPosition[     26222,        706]
+NotebookOutlinePosition[     26799,        728]
+CellTagsIndexPosition[     26756,        725]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Association Rules", "Title",
+ CellChangeTimes->{{3.7681951728413067`*^9, 3.768195179976301*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Implementation", "Section",
+ CellChangeTimes->{{3.738502170173952*^9, 3.7385021718459797`*^9}, 
+   3.7681952130933037`*^9, {3.7682016441937323`*^9, 3.768201645765729*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"https", ":"}], "//", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"mathematica", ".", "stackexchange", ".", "com"}], "/", "a"}], 
+     "/", "2555"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"area", "[", 
+      RowBox[{"r1_", ",", "r2_", ",", "d_"}], "]"}], ":=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", 
+        RowBox[{"(", 
+         RowBox[{"1", "/", "2"}], ")"}]}], "*", 
+       RowBox[{"Sqrt", "[", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"d", "+", "r1", "-", "r2"}], ")"}], " ", 
+         RowBox[{"(", 
+          RowBox[{"d", "-", "r1", "+", "r2"}], ")"}], " ", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"-", "d"}], "+", "r1", "+", "r2"}], ")"}], " ", 
+         RowBox[{"(", 
+          RowBox[{"d", "+", "r1", "+", "r2"}], ")"}]}], "]"}]}], "+", 
+      RowBox[{
+       RowBox[{"r1", "^", "2"}], " ", 
+       RowBox[{"ArcCos", "[", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"d", "^", "2"}], "+", 
+           RowBox[{"r1", "^", "2"}], "-", 
+           RowBox[{"r2", "^", "2"}]}], ")"}], "/", 
+         RowBox[{"(", 
+          RowBox[{"2", " ", "d", " ", "r1"}], ")"}]}], "]"}]}], "+", 
+      RowBox[{
+       RowBox[{"r2", "^", "2"}], " ", 
+       RowBox[{"ArcCos", "[", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"d", "^", "2"}], "-", 
+           RowBox[{"r1", "^", "2"}], "+", 
+           RowBox[{"r2", "^", "2"}]}], ")"}], "/", 
+         RowBox[{"(", 
+          RowBox[{"2", " ", "d", " ", "r2"}], ")"}]}], "]"}]}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"VennDiagram", "[", 
+       RowBox[{
+        RowBox[{"area1_", "?", "Positive"}], ",", 
+        RowBox[{"area2_", "?", "Positive"}], ",", 
+        RowBox[{"overlap_", "?", "NonNegative"}]}], "]"}], "/;", 
+      RowBox[{"overlap", "\[LessEqual]", 
+       RowBox[{"Min", "[", 
+        RowBox[{"area1", ",", "area2"}], "]"}]}]}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"x2", ",", 
+         RowBox[{"r1", "=", 
+          RowBox[{"Sqrt", "[", 
+           RowBox[{"area1", "/", "Pi"}], "]"}]}], ",", 
+         RowBox[{"r2", "=", 
+          RowBox[{"Sqrt", "[", 
+           RowBox[{"area2", "/", "Pi"}], "]"}]}], ",", "d", ",", "colors", 
+         ",", "circles", ",", "names"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"d", "=", 
+         RowBox[{"Which", "[", 
+          RowBox[{
+           RowBox[{"overlap", "\[Equal]", "0"}], ",", 
+           RowBox[{"r1", "+", "r2"}], ",", 
+           RowBox[{"overlap", "\[Equal]", 
+            RowBox[{"Min", "[", 
+             RowBox[{"area1", ",", "area2"}], "]"}]}], ",", 
+           RowBox[{"r1", "-", "r2"}], ",", "True", ",", 
+           RowBox[{"Chop", "[", 
+            RowBox[{"d", "/.", 
+             RowBox[{"FindRoot", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"area", "[", 
+                 RowBox[{"r1", ",", "r2", ",", "d"}], "]"}], "\[Equal]", 
+                "overlap"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"d", ",", "r1"}], "}"}]}], "]"}]}], "]"}]}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"colors", "=", 
+         RowBox[{"{", 
+          RowBox[{"Pink", ",", 
+           RowBox[{"Lighter", "@", 
+            RowBox[{"Lighter", "@", "Blue"}]}]}], "}"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"circles", "=", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"0", ",", "0"}], "}"}], ",", "r1"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"d", ",", "0"}], "}"}], ",", "r2"}], "}"}]}], "}"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"names", "=", 
+         RowBox[{"{", 
+          RowBox[{"\"\<A\>\"", ",", "\"\<B\>\""}], "}"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Graphics", "[", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"MapThread", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"{", "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"AbsoluteThickness", "@", "3"}], ",", 
+               "\[IndentingNewLine]", "#1", ",", "\[IndentingNewLine]", 
+               RowBox[{"Opacity", "@", ".3"}], ",", "\[IndentingNewLine]", 
+               RowBox[{"Disk", "@@", "#2"}], ",", "\[IndentingNewLine]", 
+               RowBox[{"Opacity", "@", "1"}], ",", "\[IndentingNewLine]", 
+               RowBox[{"Circle", "@@", "#2"}], ",", "\[IndentingNewLine]", 
+               RowBox[{"Style", "[", 
+                RowBox[{
+                 RowBox[{"Text", "[", 
+                  RowBox[{"#3", ",", 
+                   RowBox[{"#2", "[", 
+                    RowBox[{"[", "1", "]"}], "]"}]}], "]"}], ",", 
+                 RowBox[{
+                 "FontFamily", "\[Rule]", "\"\<Libertinus Serif\>\""}], ",", 
+                 RowBox[{"FontSize", "\[Rule]", "30"}], ",", 
+                 RowBox[{"FontSlant", "\[Rule]", "Italic"}]}], "]"}]}], 
+              "\[IndentingNewLine]", "}"}], "&"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"colors", ",", "circles", ",", "names"}], "}"}]}], 
+           "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"PlotLabel", "\[Rule]", 
+           RowBox[{"\"\<conf(A \[Rule] B) = \>\"", "<>", 
+            RowBox[{"ToString", "[", 
+             RowBox[{
+              FractionBox["overlap", "area1"], "//", "N"}], "]"}], "<>", 
+            "\"\<\\nconf(B \[Rule] A) = \>\"", "<>", 
+            RowBox[{"ToString", "[", 
+             RowBox[{
+              FractionBox["overlap", "area2"], "//", "N"}], "]"}]}]}]}], 
+         "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]", "]"}]}], 
+    ";"}]}]}]], "Input",
+ CellChangeTimes->{{3.7383926201327724`*^9, 3.738392620136775*^9}, {
+   3.7383955700587444`*^9, 3.738395576650762*^9}, {3.7383956240887856`*^9, 
+   3.7383956612177835`*^9}, {3.7383957560588455`*^9, 
+   3.7383958208648453`*^9}, {3.738395881851844*^9, 3.7383960080568466`*^9}, {
+   3.7383960475298433`*^9, 3.7383960589678435`*^9}, {3.738396089670847*^9, 
+   3.7383961772758255`*^9}, 3.7383963311138706`*^9, {3.7383963613808613`*^9, 
+   3.738396363102844*^9}, {3.738396397226846*^9, 3.7383964360918617`*^9}, {
+   3.738396477458845*^9, 3.7383964906709185`*^9}, {3.7383965980738955`*^9, 
+   3.7383966586669197`*^9}, {3.738397014865056*^9, 3.7383970155040393`*^9}, {
+   3.738397338532076*^9, 3.738397349973054*^9}, {3.738398506372596*^9, 
+   3.738398508337596*^9}, {3.7383990060396132`*^9, 3.7383990295605783`*^9}, {
+   3.7384005613136806`*^9, 3.7384005632906847`*^9}, {3.738400776011704*^9, 
+   3.738400801073682*^9}}]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Part 1: Two Products", "Section",
+ CellChangeTimes->{{3.738502419118023*^9, 3.7385024209309998`*^9}, 
+   3.7681952199413004`*^9, {3.7681956513383017`*^9, 3.768195652996299*^9}}],
+
+Cell["We can define the support values as follows:", "Text",
+ CellChangeTimes->{{3.7385025275704412`*^9, 3.738502534914452*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"suppA", "=", "1"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"suppB", "=", "0.5"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"suppAB", "=", "0.5"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.7385024374654517`*^9, 3.7385024611984673`*^9}}],
+
+Cell["and derive the confidence values from here.", "Text",
+ CellChangeTimes->{{3.7385025386164427`*^9, 3.7385025466324673`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"confAB", "=", 
+  FractionBox["suppAB", "suppA"]}]], "Input",
+ CellChangeTimes->{{3.7385024687624516`*^9, 3.738502489135453*^9}}],
+
+Cell[BoxData["0.5`"], "Output",
+ CellChangeTimes->{3.7385024894604335`*^9, 3.7682016503957286`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"confBA", "=", 
+  FractionBox["suppAB", "suppB"]}]], "Input",
+ CellChangeTimes->{{3.7385024933384266`*^9, 3.7385024962524257`*^9}}],
+
+Cell[BoxData["1.`"], "Output",
+ CellChangeTimes->{3.738502496547448*^9, 3.7682016504207296`*^9}]
+}, Open  ]],
+
+Cell["\<\
+This situation could e.g. correspond to the following Venn diagram.\
+\>", "Text",
+ CellChangeTimes->{{3.7385025987504325`*^9, 3.7385026344244456`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"VennDiagram", "[", 
+  RowBox[{"6", ",", "3", ",", "3"}], "]"}]], "Input",
+ CellChangeTimes->{{3.738400757446702*^9, 3.7384007588346806`*^9}, {
+  3.738400934471699*^9, 3.7384009361157165`*^9}}],
+
+Cell[BoxData[
+ GraphicsBox[{
+   {RGBColor[1, 0.5, 0.5], AbsoluteThickness[3], Opacity[0.3], 
+    DiskBox[{0, 0}, NCache[(6/Pi)^Rational[1, 2], 1.381976597885342]], 
+    {Opacity[1], 
+     CircleBox[{0, 0}, NCache[(6/Pi)^Rational[1, 2], 1.381976597885342]], 
+     StyleBox[InsetBox["\<\"A\"\>", {0, 0}],
+      StripOnInput->False,
+      FontFamily->"Libertinus Serif",
+      FontSize->30,
+      FontSlant->Italic]}}, 
+   {RGBColor[
+     NCache[
+      Rational[5, 9], 0.5555555555555556], 
+     NCache[
+      Rational[5, 9], 0.5555555555555556], 1], AbsoluteThickness[3], Opacity[
+    0.3], DiskBox[
+     NCache[{-(3/Pi)^Rational[1, 2] + (6/Pi)^Rational[1, 2], 0}, {
+      0.40477157407950215`, 0}], 
+     NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+    {Opacity[1], 
+     CircleBox[
+      NCache[{-(3/Pi)^Rational[1, 2] + (6/Pi)^Rational[1, 2], 0}, {
+       0.40477157407950215`, 0}], 
+      NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+     StyleBox[
+      InsetBox["\<\"B\"\>", 
+       NCache[{-(3/Pi)^Rational[1, 2] + (6/Pi)^Rational[1, 2], 0}, {
+        0.40477157407950215`, 0}]],
+      StripOnInput->False,
+      FontFamily->"Libertinus Serif",
+      FontSize->30,
+      FontSlant->Italic]}}},
+  PlotLabel->FormBox[
+   "\"conf(A \[Rule] B) = 0.5\\nconf(B \[Rule] A) = 1.\"", 
+    TraditionalForm]]], "Output",
+ CellChangeTimes->{{3.7384007592206984`*^9, 3.738400804251698*^9}, 
+   3.7384009363657036`*^9, 3.738495177911291*^9, 3.7682016505147295`*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Part 2: Set Intersection", "Section",
+ CellChangeTimes->{{3.7682007334797316`*^9, 3.7682007631747293`*^9}, {
+  3.768201463331731*^9, 3.768201464228774*^9}}],
+
+Cell[TextData[{
+ "The intersection between two singleton item sets with different items is \
+always the empty set. Hence, we always get a support of 0. This is not a \
+useful result.\n\nThere is sometimes a confusion why we use ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"support", "(", 
+    RowBox[{"A", "\[Union]", "B"}], ")"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " to find out how often two items are used together. This may sound as an \
+intersection problem at first glance. However, the union increases the total \
+item set and this means that less transactions apply to it. Hence, we usually \
+end up with a decreased support value."
+}], "Text",
+ CellChangeTimes->{{3.7682008827657332`*^9, 3.7682009059167304`*^9}, {
+   3.7682009741537313`*^9, 3.768200989598729*^9}, 3.768201098483731*^9, {
+   3.768201144711731*^9, 3.76820115154573*^9}, {3.7682013156997557`*^9, 
+   3.7682014496077285`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Part 3: Venn Diagram", "Section",
+ CellChangeTimes->{{3.768201618077731*^9, 3.76820162823773*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"vennDiagrams", "=", 
+  RowBox[{"{", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"VennDiagram", "[", 
+     RowBox[{"3", ",", "6", ",", "2.5"}], "]"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"VennDiagram", "[", 
+     RowBox[{"8", ",", "3", ",", "0.5"}], "]"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"VennDiagram", "[", 
+     RowBox[{"3", ",", "3", ",", "1.5"}], "]"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"VennDiagram", "[", 
+     RowBox[{"3", ",", "3", ",", "2.7"}], "]"}]}], "\[IndentingNewLine]", 
+   "}"}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   GraphicsBox[{
+     {RGBColor[1, 0.5, 0.5], AbsoluteThickness[3], Opacity[0.3], 
+      DiskBox[{0, 0}, NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+      {Opacity[1], 
+       CircleBox[{0, 0}, NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+       StyleBox[InsetBox["\<\"A\"\>", {0, 0}],
+        StripOnInput->False,
+        FontFamily->"Libertinus Serif",
+        FontSize->30,
+        FontSlant->Italic]}}, 
+     {RGBColor[
+       NCache[
+        Rational[5, 9], 0.5555555555555556], 
+       NCache[
+        Rational[5, 9], 0.5555555555555556], 1], AbsoluteThickness[3], 
+      Opacity[0.3], 
+      DiskBox[{0.7415735420756666, 0}, 
+       NCache[(6/Pi)^Rational[1, 2], 1.381976597885342]], 
+      {Opacity[1], 
+       CircleBox[{0.7415735420756666, 0}, 
+        NCache[(6/Pi)^Rational[1, 2], 1.381976597885342]], 
+       StyleBox[InsetBox["\<\"B\"\>", {0.7415735420756666, 0}],
+        StripOnInput->False,
+        FontFamily->"Libertinus Serif",
+        FontSize->30,
+        FontSlant->Italic]}}},
+    PlotLabel->FormBox[
+     "\"conf(A \[Rule] B) = 0.833333\\nconf(B \[Rule] A) = 0.416667\"", 
+      TraditionalForm]], ",", 
+   GraphicsBox[{
+     {RGBColor[1, 0.5, 0.5], AbsoluteThickness[3], Opacity[0.3], 
+      DiskBox[{0, 0}, NCache[2 (2/Pi)^Rational[1, 2], 1.5957691216057308`]], 
+      {Opacity[1], 
+       CircleBox[{0, 0}, NCache[
+        2 (2/Pi)^Rational[1, 2], 1.5957691216057308`]], 
+       StyleBox[InsetBox["\<\"A\"\>", {0, 0}],
+        StripOnInput->False,
+        FontFamily->"Libertinus Serif",
+        FontSize->30,
+        FontSlant->Italic]}}, 
+     {RGBColor[
+       NCache[
+        Rational[5, 9], 0.5555555555555556], 
+       NCache[
+        Rational[5, 9], 0.5555555555555556], 1], AbsoluteThickness[3], 
+      Opacity[0.3], 
+      DiskBox[{2.072331457015477, 0}, 
+       NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+      {Opacity[1], 
+       CircleBox[{2.072331457015477, 0}, 
+        NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+       StyleBox[InsetBox["\<\"B\"\>", {2.072331457015477, 0}],
+        StripOnInput->False,
+        FontFamily->"Libertinus Serif",
+        FontSize->30,
+        FontSlant->Italic]}}},
+    PlotLabel->FormBox[
+     "\"conf(A \[Rule] B) = 0.0625\\nconf(B \[Rule] A) = 0.166667\"", 
+      TraditionalForm]], ",", 
+   GraphicsBox[{
+     {RGBColor[1, 0.5, 0.5], AbsoluteThickness[3], Opacity[0.3], 
+      DiskBox[{0, 0}, NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+      {Opacity[1], 
+       CircleBox[{0, 0}, NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+       StyleBox[InsetBox["\<\"A\"\>", {0, 0}],
+        StripOnInput->False,
+        FontFamily->"Libertinus Serif",
+        FontSize->30,
+        FontSlant->Italic]}}, 
+     {RGBColor[
+       NCache[
+        Rational[5, 9], 0.5555555555555556], 
+       NCache[
+        Rational[5, 9], 0.5555555555555556], 1], AbsoluteThickness[3], 
+      Opacity[0.3], 
+      DiskBox[{0.7895284080099308, 0}, 
+       NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+      {Opacity[1], 
+       CircleBox[{0.7895284080099308, 0}, 
+        NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+       StyleBox[InsetBox["\<\"B\"\>", {0.7895284080099308, 0}],
+        StripOnInput->False,
+        FontFamily->"Libertinus Serif",
+        FontSize->30,
+        FontSlant->Italic]}}},
+    PlotLabel->FormBox[
+     "\"conf(A \[Rule] B) = 0.5\\nconf(B \[Rule] A) = 0.5\"", 
+      TraditionalForm]], ",", 
+   GraphicsBox[{
+     {RGBColor[1, 0.5, 0.5], AbsoluteThickness[3], Opacity[0.3], 
+      DiskBox[{0, 0}, NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+      {Opacity[1], 
+       CircleBox[{0, 0}, NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+       StyleBox[InsetBox["\<\"A\"\>", {0, 0}],
+        StripOnInput->False,
+        FontFamily->"Libertinus Serif",
+        FontSize->30,
+        FontSlant->Italic]}}, 
+     {RGBColor[
+       NCache[
+        Rational[5, 9], 0.5555555555555556], 
+       NCache[
+        Rational[5, 9], 0.5555555555555556], 1], AbsoluteThickness[3], 
+      Opacity[0.3], 
+      DiskBox[{0.15365745232233138, 0}, 
+       NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+      {Opacity[1], 
+       CircleBox[{0.15365745232233138, 0}, 
+        NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+       StyleBox[InsetBox["\<\"B\"\>", {0.15365745232233138, 0}],
+        StripOnInput->False,
+        FontFamily->"Libertinus Serif",
+        FontSize->30,
+        FontSlant->Italic]}}},
+    PlotLabel->FormBox[
+     "\"conf(A \[Rule] B) = 0.9\\nconf(B \[Rule] A) = 0.9\"", 
+      TraditionalForm]]}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.738397017263052*^9, 3.738397351006053*^9, 3.738398509259579*^9, 
+   3.738399030283594*^9, 3.7384005642746887`*^9, {3.738400788284688*^9, 
+   3.73840080192369*^9}, 3.738495177781292*^9, 3.768201650588728*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"vennDiagramsClean", "=", 
+  RowBox[{"vennDiagrams", "/.", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{"PlotLabel", "\[Rule]", "_"}], ")"}], "\[Rule]", 
+     RowBox[{"(", 
+      RowBox[{"PlotLabel", "\[Rule]", "None"}], ")"}]}], "}"}]}]}]], "Input",
+ CellChangeTimes->{{3.738396202008848*^9, 3.738396208670843*^9}, {
+   3.7383963056628475`*^9, 3.73839636759486*^9}, 3.7383965041399174`*^9, {
+   3.738396757015975*^9, 3.738396758829994*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   GraphicsBox[{
+     {RGBColor[1, 0.5, 0.5], AbsoluteThickness[3], Opacity[0.3], 
+      DiskBox[{0, 0}, NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+      {Opacity[1], 
+       CircleBox[{0, 0}, NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+       StyleBox[InsetBox["\<\"A\"\>", {0, 0}],
+        StripOnInput->False,
+        FontFamily->"Libertinus Serif",
+        FontSize->30,
+        FontSlant->Italic]}}, 
+     {RGBColor[
+       NCache[
+        Rational[5, 9], 0.5555555555555556], 
+       NCache[
+        Rational[5, 9], 0.5555555555555556], 1], AbsoluteThickness[3], 
+      Opacity[0.3], 
+      DiskBox[{0.7415735420756666, 0}, 
+       NCache[(6/Pi)^Rational[1, 2], 1.381976597885342]], 
+      {Opacity[1], 
+       CircleBox[{0.7415735420756666, 0}, 
+        NCache[(6/Pi)^Rational[1, 2], 1.381976597885342]], 
+       StyleBox[InsetBox["\<\"B\"\>", {0.7415735420756666, 0}],
+        StripOnInput->False,
+        FontFamily->"Libertinus Serif",
+        FontSize->30,
+        FontSlant->Italic]}}},
+    PlotLabel->None], ",", 
+   GraphicsBox[{
+     {RGBColor[1, 0.5, 0.5], AbsoluteThickness[3], Opacity[0.3], 
+      DiskBox[{0, 0}, NCache[2 (2/Pi)^Rational[1, 2], 1.5957691216057308`]], 
+      {Opacity[1], 
+       CircleBox[{0, 0}, NCache[
+        2 (2/Pi)^Rational[1, 2], 1.5957691216057308`]], 
+       StyleBox[InsetBox["\<\"A\"\>", {0, 0}],
+        StripOnInput->False,
+        FontFamily->"Libertinus Serif",
+        FontSize->30,
+        FontSlant->Italic]}}, 
+     {RGBColor[
+       NCache[
+        Rational[5, 9], 0.5555555555555556], 
+       NCache[
+        Rational[5, 9], 0.5555555555555556], 1], AbsoluteThickness[3], 
+      Opacity[0.3], 
+      DiskBox[{2.072331457015477, 0}, 
+       NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+      {Opacity[1], 
+       CircleBox[{2.072331457015477, 0}, 
+        NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+       StyleBox[InsetBox["\<\"B\"\>", {2.072331457015477, 0}],
+        StripOnInput->False,
+        FontFamily->"Libertinus Serif",
+        FontSize->30,
+        FontSlant->Italic]}}},
+    PlotLabel->None], ",", 
+   GraphicsBox[{
+     {RGBColor[1, 0.5, 0.5], AbsoluteThickness[3], Opacity[0.3], 
+      DiskBox[{0, 0}, NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+      {Opacity[1], 
+       CircleBox[{0, 0}, NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+       StyleBox[InsetBox["\<\"A\"\>", {0, 0}],
+        StripOnInput->False,
+        FontFamily->"Libertinus Serif",
+        FontSize->30,
+        FontSlant->Italic]}}, 
+     {RGBColor[
+       NCache[
+        Rational[5, 9], 0.5555555555555556], 
+       NCache[
+        Rational[5, 9], 0.5555555555555556], 1], AbsoluteThickness[3], 
+      Opacity[0.3], 
+      DiskBox[{0.7895284080099308, 0}, 
+       NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+      {Opacity[1], 
+       CircleBox[{0.7895284080099308, 0}, 
+        NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+       StyleBox[InsetBox["\<\"B\"\>", {0.7895284080099308, 0}],
+        StripOnInput->False,
+        FontFamily->"Libertinus Serif",
+        FontSize->30,
+        FontSlant->Italic]}}},
+    PlotLabel->None], ",", 
+   GraphicsBox[{
+     {RGBColor[1, 0.5, 0.5], AbsoluteThickness[3], Opacity[0.3], 
+      DiskBox[{0, 0}, NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+      {Opacity[1], 
+       CircleBox[{0, 0}, NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+       StyleBox[InsetBox["\<\"A\"\>", {0, 0}],
+        StripOnInput->False,
+        FontFamily->"Libertinus Serif",
+        FontSize->30,
+        FontSlant->Italic]}}, 
+     {RGBColor[
+       NCache[
+        Rational[5, 9], 0.5555555555555556], 
+       NCache[
+        Rational[5, 9], 0.5555555555555556], 1], AbsoluteThickness[3], 
+      Opacity[0.3], 
+      DiskBox[{0.15365745232233138, 0}, 
+       NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+      {Opacity[1], 
+       CircleBox[{0.15365745232233138, 0}, 
+        NCache[(3/Pi)^Rational[1, 2], 0.9772050238058398]], 
+       StyleBox[InsetBox["\<\"B\"\>", {0.15365745232233138, 0}],
+        StripOnInput->False,
+        FontFamily->"Libertinus Serif",
+        FontSize->30,
+        FontSlant->Italic]}}},
+    PlotLabel->None]}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.7383961987058434`*^9, {3.738396322500844*^9, 3.7383963680178585`*^9}, 
+   3.7383964706448436`*^9, 3.7383965044698935`*^9, 3.738396674061905*^9, 
+   3.7383967591239514`*^9, 3.738399031425577*^9, 3.738400788639674*^9, 
+   3.738495177881291*^9, 3.768201650661729*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{"Do", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Export", "[", 
+      RowBox[{
+       RowBox[{"FileNameJoin", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"NotebookDirectory", "[", "]"}], ",", 
+          RowBox[{"\"\<VennDiagram\>\"", "<>", 
+           RowBox[{"ToString", "[", "i", "]"}], "<>", "\"\<.pdf\>\""}]}], 
+         "}"}], "]"}], ",", 
+       RowBox[{"vennDiagramsClean", "[", 
+        RowBox[{"[", "i", "]"}], "]"}]}], "]"}], ";"}], "\[IndentingNewLine]",
+     ",", 
+    RowBox[{"{", 
+     RowBox[{"i", ",", "1", ",", 
+      RowBox[{"Length", "[", "vennDiagramsClean", "]"}]}], "}"}]}], "]"}], 
+  "*)"}]], "Input",
+ CellChangeTimes->{{3.7383967529699917`*^9, 3.7383967884719505`*^9}, 
+   3.7383970016410384`*^9, {3.7383990348826017`*^9, 3.7383990366456013`*^9}, 
+   3.738400754562683*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Part 4: Which Support Is Higher?", "Section",
+ CellChangeTimes->{{3.7385026581424255`*^9, 3.7385026616774516`*^9}, {
+  3.7681952225663004`*^9, 3.768195227041304*^9}, {3.7682016350077314`*^9, 
+  3.7682016371857305`*^9}}],
+
+Cell["Starting situation:", "Text",
+ CellChangeTimes->{{3.7385029094381924`*^9, 3.738502923071819*^9}, {
+  3.7385030017209187`*^9, 3.738503003777914*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[GridBox[{
+    {GridBox[{
+       {
+        RowBox[{
+         RowBox[{
+          RowBox[{"conf", "(", 
+           RowBox[{"A", "\[Rule]", "B"}], ")"}], "=", 
+          RowBox[{
+           FractionBox[
+            RowBox[{"support", "(", 
+             RowBox[{"A", "\[Union]", "B"}], ")"}], 
+            RowBox[{"support", "(", "A", ")"}]], "=", "0.1"}]}], 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"conf", "(", 
+           RowBox[{"B", "\[Rule]", "A"}], ")"}], "=", 
+          RowBox[{
+           FractionBox[
+            RowBox[{"support", "(", 
+             RowBox[{"A", "\[Union]", "B"}], ")"}], 
+            RowBox[{"support", "(", "B", ")"}]], "=", "0.3"}]}]}]}
+      },
+      GridBoxAlignment->{"Columns" -> {{"="}}}]}
+   },
+   GridBoxItemSize->{"Columns" -> {{
+        Scaled[0.96]}}}], TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.7385029273868127`*^9, 3.7385029844658794`*^9}}],
+
+Cell[TextData[{
+ "We can answer this question logically: ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"support", "(", "A", ")"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " must be higher so that the denominator increases and hence the complete \
+fraction decreases. Alternatively, we can solve the system:"
+}], "Text",
+ CellChangeTimes->{{3.7385029974698734`*^9, 3.7385030847082667`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Solve", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"0.1", "*", "A"}], "\[Equal]", 
+    RowBox[{"0.3", "*", "B"}]}], ",", 
+   RowBox[{"{", "A", "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.738502689098452*^9, 3.7385027258175354`*^9}, {
+  3.738502850912197*^9, 3.738502881860196*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{"A", "\[Rule]", 
+    RowBox[{"3.`", " ", "B"}]}], "}"}], "}"}]], "Output",
+ CellChangeTimes->{{3.7385027171425447`*^9, 3.738502726133543*^9}, 
+   3.738502851911209*^9, 3.7385028822681923`*^9, 3.768201650744729*^9}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+PrintingStyleEnvironment->"Printout",
+WindowSize->{1278, 1348},
+WindowMargins->{{-7, Automatic}, {Automatic, 0}},
+PrintingCopies->1,
+PrintingPageRange->{1, 32000},
+PrintingOptions->{"Magnification"->1.,
+"PaperOrientation"->"Portrait",
+"PaperSize"->{595.2, 841.8},
+"PrintingMargins"->28.346456999999997`},
+FrontEndVersion->"11.0 for Microsoft Windows (64-bit) (September 21, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 102, 1, 101, "Title"],
+Cell[CellGroupData[{
+Cell[707, 27, 177, 2, 70, "Section"],
+Cell[887, 31, 6981, 168, 585, "Input"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[7905, 204, 183, 2, 56, "Section"],
+Cell[8091, 208, 128, 1, 30, "Text"],
+Cell[8222, 211, 292, 7, 69, "Input"],
+Cell[8517, 220, 129, 1, 30, "Text"],
+Cell[CellGroupData[{
+Cell[8671, 225, 152, 3, 52, "Input"],
+Cell[8826, 230, 99, 1, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8962, 236, 154, 3, 52, "Input"],
+Cell[9119, 241, 96, 1, 30, "Output"]
+}, Open  ]],
+Cell[9230, 245, 161, 3, 30, "Text"],
+Cell[CellGroupData[{
+Cell[9416, 252, 216, 4, 30, "Input"],
+Cell[9635, 258, 1473, 37, 409, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11157, 301, 162, 2, 70, "Section"],
+Cell[11322, 305, 915, 17, 89, "Text"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[12274, 327, 104, 1, 70, "Section"],
+Cell[CellGroupData[{
+Cell[12403, 332, 558, 12, 126, "Input"],
+Cell[12964, 346, 4868, 123, 219, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[17869, 474, 483, 11, 30, "Input"],
+Cell[18355, 487, 4547, 116, 184, "Output"]
+}, Open  ]],
+Cell[22917, 606, 883, 23, 69, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[23837, 634, 225, 3, 70, "Section"],
+Cell[24065, 639, 154, 2, 30, "Text"],
+Cell[24222, 643, 955, 27, 74, "Text"],
+Cell[25180, 672, 397, 9, 32, "Text"],
+Cell[CellGroupData[{
+Cell[25602, 685, 307, 8, 30, "Input"],
+Cell[25912, 695, 270, 6, 30, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
